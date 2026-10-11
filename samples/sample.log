@@ -1,0 +1,6 @@
+2026-10-06T12:00:00Z INFO checkout Request completed status=200
+2026-10-06T12:00:10Z ERROR checkout DB connection timeout
+    Traceback (most recent call last):
+    File "db_client.py", line 42, in acquire
+    TimeoutError: connection pool exhausted
+2026-10-06T12:00:11Z ERROR gateway Upstream checkout returned status=502

@@ -1,0 +1,29 @@
+{"timestamp": "2026-10-06T12:00:00+00:00", "service": "checkout", "level": "INFO", "message": "Request completed status=200", "trace_id": "healthy-1"}
+{"timestamp": "2026-10-06T12:00:05+00:00", "service": "checkout", "level": "INFO", "message": "Deployment v2.4 completed; connection pool limit unchanged", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:08+00:00", "service": "database", "level": "WARNING", "message": "Active connections reached configured limit=20", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:10+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-0"}
+{"timestamp": "2026-10-06T12:00:11+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-0"}
+{"timestamp": "2026-10-06T12:00:12+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-1"}
+{"timestamp": "2026-10-06T12:00:13+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-1"}
+{"timestamp": "2026-10-06T12:00:14+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-2"}
+{"timestamp": "2026-10-06T12:00:15+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-2"}
+{"timestamp": "2026-10-06T12:00:16+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-3"}
+{"timestamp": "2026-10-06T12:00:17+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-3"}
+{"timestamp": "2026-10-06T12:00:18+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-4"}
+{"timestamp": "2026-10-06T12:00:19+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-4"}
+{"timestamp": "2026-10-06T12:00:20+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-5"}
+{"timestamp": "2026-10-06T12:00:21+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-5"}
+{"timestamp": "2026-10-06T12:00:22+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-6"}
+{"timestamp": "2026-10-06T12:00:23+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-6"}
+{"timestamp": "2026-10-06T12:00:24+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-7"}
+{"timestamp": "2026-10-06T12:00:25+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-7"}
+{"timestamp": "2026-10-06T12:00:26+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-8"}
+{"timestamp": "2026-10-06T12:00:27+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-8"}
+{"timestamp": "2026-10-06T12:00:28+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-9"}
+{"timestamp": "2026-10-06T12:00:29+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-9"}
+{"timestamp": "2026-10-06T12:00:30+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-10"}
+{"timestamp": "2026-10-06T12:00:31+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-10"}
+{"timestamp": "2026-10-06T12:00:32+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "checkout-11"}
+{"timestamp": "2026-10-06T12:00:33+00:00", "service": "gateway", "level": "ERROR", "message": "Upstream checkout returned status=502", "trace_id": "checkout-11"}
+{"timestamp": "2026-10-06T12:00:40+00:00", "service": "database", "level": "INFO", "message": "Connections returned below limit after traffic decreased", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:43+00:00", "service": "checkout", "level": "INFO", "message": "Request completed status=200", "trace_id": "healthy-2"}

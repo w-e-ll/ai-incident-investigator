@@ -1,0 +1,147 @@
+{
+  "schema_version": "incident.v1",
+  "incident_id": "checkout-prod-2026-10-08",
+  "tenant_id": "demo-team",
+  "environment": "production",
+  "events": [
+    {
+      "timestamp": "2026-10-08T11:59:00Z",
+      "kind": "metric",
+      "service": "database",
+      "message": "Connection utilization healthy",
+      "attributes": {
+        "active_connections": 8,
+        "max_connections": 20
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:05Z",
+      "kind": "metric",
+      "service": "checkout",
+      "message": "Worker concurrency increased",
+      "attributes": {
+        "workers": 32,
+        "previous_workers": 8,
+        "deployment_id": "checkout-v218"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:08Z",
+      "kind": "metric",
+      "service": "database",
+      "severity": "WARNING",
+      "message": "Active connections reached configured limit",
+      "attributes": {
+        "active_connections": 20,
+        "max_connections": 20,
+        "waiting_clients": 12
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:09Z",
+      "kind": "span",
+      "service": "checkout",
+      "operation": "POST /checkout database acquire",
+      "status": "ERROR",
+      "duration_ms": 3000,
+      "trace_id": "trace-prod-001",
+      "attributes": {
+        "db.system": "postgresql",
+        "db.operation.name": "CONNECT",
+        "error.type": "PoolTimeout"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:12Z",
+      "kind": "span",
+      "service": "gateway",
+      "operation": "POST /checkout",
+      "status": "ERROR",
+      "duration_ms": 3015,
+      "trace_id": "trace-prod-001",
+      "attributes": {
+        "http.response.status_code": 502,
+        "upstream.service": "checkout"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:13Z",
+      "kind": "log",
+      "service": "checkout",
+      "severity": "ERROR",
+      "message": "Timeout acquiring DB connection; capacity exhausted",
+      "trace_id": "trace-prod-002",
+      "attributes": {
+        "pod": "checkout-7b5f-2",
+        "resource.service.version": "2.18.0"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:14Z",
+      "kind": "kubernetes_event",
+      "service": "checkout",
+      "severity": "INFO",
+      "message": "Pods remain Ready; no restarts or OOM events",
+      "attributes": {
+        "restart_count": 0,
+        "ready_replicas": 4
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:00:15Z",
+      "kind": "alert",
+      "service": "gateway",
+      "severity": "WARNING",
+      "message": "Checkout 5xx rate exceeded 10 percent",
+      "attributes": {
+        "alertname": "CheckoutErrorRate",
+        "error_ratio": 0.14
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:04:10Z",
+      "kind": "metric",
+      "service": "database",
+      "message": "Connections recovered below limit after rollback",
+      "attributes": {
+        "active_connections": 9,
+        "waiting_clients": 0
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:04:15Z",
+      "kind": "span",
+      "service": "gateway",
+      "operation": "POST /checkout",
+      "status": "OK",
+      "trace_id": "trace-prod-003",
+      "duration_ms": 92,
+      "attributes": {
+        "http.response.status_code": 200
+      }
+    }
+  ],
+  "changes": [
+    {
+      "timestamp": "2026-10-08T12:00:00Z",
+      "kind": "deployment",
+      "service": "checkout",
+      "operation": "Deployed checkout 2.18.0",
+      "attributes": {
+        "deployment_id": "checkout-v218",
+        "previous_version": "2.17.4",
+        "change": "workers 8 to 32"
+      }
+    },
+    {
+      "timestamp": "2026-10-08T12:04:00Z",
+      "kind": "deployment",
+      "service": "checkout",
+      "operation": "Rolled back checkout to 2.17.4",
+      "attributes": {
+        "deployment_id": "checkout-rollback",
+        "workers": 8
+      }
+    }
+  ]
+}

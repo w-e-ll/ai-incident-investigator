@@ -1,0 +1,159 @@
+services:
+  db:
+    image: pgvector/pgvector:0.8.6-pg18-trixie
+    environment:
+      POSTGRES_DB: incidents
+      POSTGRES_USER: investigator_admin
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Set POSTGRES_ADMIN_PASSWORD in .env}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD:?Set APP_DB_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./docker/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U investigator_admin -d incidents"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  migrate:
+    build:
+      context: .
+      target: runtime
+    environment:
+      DATABASE_URL: postgresql+psycopg://investigator:${APP_DB_PASSWORD}@db:5432/incidents
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      vector-init:
+        condition: service_completed_successfully
+  vector-init:
+    image: pgvector/pgvector:0.8.6-pg18-trixie
+    environment:
+      PGPASSWORD: ${POSTGRES_ADMIN_PASSWORD}
+    command: ["psql", "-h", "db", "-U", "investigator_admin", "-d", "incidents", "-v", "ON_ERROR_STOP=1", "-c", "CREATE EXTENSION IF NOT EXISTS vector"]
+    depends_on:
+      db:
+        condition: service_healthy
+  worker:
+    build:
+      context: .
+      target: runtime
+    command: ["python", "worker.py"]
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://investigator:${APP_DB_PASSWORD}@db:5432/incidents
+      SERVICE_NAME: worker
+      LOG_DIR: /app/var/logs
+    volumes:
+      - ./var/logs:/app/var/logs
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+  api:
+    build:
+      context: .
+      target: runtime
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://investigator:${APP_DB_PASSWORD}@db:5432/incidents
+      SERVICE_NAME: api
+      LOG_DIR: /app/var/logs
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      INVESTIGATION_MODEL: ${INVESTIGATION_MODEL:-gpt-4.1-mini}
+      PRICE_AS_OF: ${PRICE_AS_OF:-}
+    volumes:
+      - ./var/logs:/app/var/logs
+    restart: unless-stopped
+    ports: ["127.0.0.1:8000:8000"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health/db')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging:
+      driver: json-file
+      options: {max-size: "20m", max-file: "5"}
+  ui:
+    build:
+      context: .
+      target: runtime
+    command: ["streamlit", "run", "streamlit_app.py", "--server.address", "0.0.0.0"]
+    environment:
+      SERVICE_NAME: ui
+      LOG_DIR: /app/var/logs
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      API_BASE_URL: http://api:8000
+    volumes:
+      - ./var/logs:/app/var/logs
+    restart: unless-stopped
+    ports: ["127.0.0.1:8501:8501"]
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging:
+      driver: json-file
+      options: {max-size: "20m", max-file: "5"}
+  vector-test-init:
+    profiles: [tests]
+    image: pgvector/pgvector:0.8.6-pg18-trixie
+    environment:
+      PGPASSWORD: ${POSTGRES_ADMIN_PASSWORD}
+    command: ["psql", "-h", "db", "-U", "investigator_admin", "-d", "incidents_test", "-v", "ON_ERROR_STOP=1", "-c", "CREATE EXTENSION IF NOT EXISTS vector"]
+    depends_on:
+      db:
+        condition: service_healthy
+  tests:
+    profiles: ["tests"]
+    build:
+      context: .
+      target: tests
+    environment:
+      TEST_DATABASE_URL: postgresql+psycopg://investigator:${APP_DB_PASSWORD}@db:5432/incidents_test
+    depends_on:
+      vector-test-init:
+        condition: service_completed_successfully
+      migrate:
+        condition: service_completed_successfully
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.143.0
+    profiles: [observability]
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    volumes:
+      - ./observability/otel/collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+    ports: ["127.0.0.1:4317:4317", "127.0.0.1:4318:4318", "127.0.0.1:8889:8889"]
+
+  prometheus:
+    image: prom/prometheus:v3.7.2
+    profiles: [observability]
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["127.0.0.1:9090:9090"]
+    depends_on: [otel-collector]
+
+  tempo:
+    image: grafana/tempo:2.8.2
+    profiles: [observability]
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./observability/tempo.yaml:/etc/tempo.yaml:ro
+    ports: ["127.0.0.1:3200:3200", "127.0.0.1:4319:4317"]
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    profiles: [observability]
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on: [prometheus, tempo]
+volumes:
+  postgres_data:
+

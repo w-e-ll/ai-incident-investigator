@@ -1,0 +1,13 @@
+{"timestamp": "2026-10-06T12:00:00+00:00", "service": "payments", "level": "INFO", "message": "Payment authorization successful", "trace_id": "before-1"}
+{"timestamp": "2026-10-06T12:00:05+00:00", "service": "payments", "level": "INFO", "message": "Config reload: credential_version changed from v4 to v5", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:06+00:00", "service": "payments", "level": "WARNING", "message": "Loaded credential_version=v5; provider expects v4", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:10+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-0"}
+{"timestamp": "2026-10-06T12:00:11+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-1"}
+{"timestamp": "2026-10-06T12:00:12+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-2"}
+{"timestamp": "2026-10-06T12:00:13+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-3"}
+{"timestamp": "2026-10-06T12:00:14+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-4"}
+{"timestamp": "2026-10-06T12:00:15+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-5"}
+{"timestamp": "2026-10-06T12:00:16+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-6"}
+{"timestamp": "2026-10-06T12:00:17+00:00", "service": "payments", "level": "ERROR", "message": "Authentication failed: credential version mismatch", "trace_id": "pay-7"}
+{"timestamp": "2026-10-06T12:00:25+00:00", "service": "payments", "level": "INFO", "message": "Config rollback: credential_version=v4", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:26+00:00", "service": "payments", "level": "INFO", "message": "Payment authorization successful", "trace_id": "after-1"}

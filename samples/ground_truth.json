@@ -1,0 +1,10 @@
+{
+  "synthetic": true,
+  "cases": [
+    {"file": "db_timeout.jsonl", "mechanism": "DB connection capacity exhaustion", "accept": ["dependency capacity hypothesis", "no claim that deployment caused it"], "missing": ["pool metrics", "traffic and configuration history"]},
+    {"file": "config_change.jsonl", "mechanism": "Credential version mismatch introduced by configuration change", "accept": ["configuration or credentials hypothesis", "cites mismatch and rollback evidence"]},
+    {"file": "independent_failures.jsonl", "mechanism": "Two independent failures: DB connectivity and media disk quota", "accept": ["retains separate explanations", "does not force a single root cause"]},
+    {"file": "insufficient.jsonl", "mechanism": "Unknown", "accept": ["abstains from confirmed cause", "asks for upstream evidence"]}
+  ],
+  "note": "Qualitative evaluation rubric; not a measured live-model benchmark. Demo output is conservative templates."
+}

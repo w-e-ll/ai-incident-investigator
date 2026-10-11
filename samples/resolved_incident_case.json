@@ -1,0 +1,12 @@
+{
+  "case_id": "case-checkout-db-pool-001",
+  "tenant_id": "demo-team",
+  "title": "Checkout database connection pool exhaustion",
+  "service": "checkout",
+  "environment": "production",
+  "symptoms": ["checkout requests returned HTTP 502", "DB connection timeout after 3000ms"],
+  "root_cause": "A deployment increased concurrent checkout workers beyond the database connection pool limit.",
+  "resolution": ["Rolled back the worker concurrency change", "Raised the pool limit after capacity review", "Added an alert at 80 percent pool utilization"],
+  "verification": ["Checkout returned HTTP 200", "Active connections stayed below the configured limit", "No new gateway 502 responses for 30 minutes"],
+  "metadata": {"team": "payments", "severity": "high", "environment": "production"}
+}

@@ -1,0 +1,14 @@
+{"timestamp": "2026-10-06T12:00:00+00:00", "service": "checkout", "level": "INFO", "message": "Health check successful", "trace_id": null}
+{"timestamp": "2026-10-06T12:00:10+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-0"}
+{"timestamp": "2026-10-06T12:00:10+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-0"}
+{"timestamp": "2026-10-06T12:00:11+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-1"}
+{"timestamp": "2026-10-06T12:00:11+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-1"}
+{"timestamp": "2026-10-06T12:00:12+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-2"}
+{"timestamp": "2026-10-06T12:00:12+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-2"}
+{"timestamp": "2026-10-06T12:00:13+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-3"}
+{"timestamp": "2026-10-06T12:00:13+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-3"}
+{"timestamp": "2026-10-06T12:00:14+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-4"}
+{"timestamp": "2026-10-06T12:00:14+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-4"}
+{"timestamp": "2026-10-06T12:00:15+00:00", "service": "checkout", "level": "ERROR", "message": "DB connection timeout after 3000ms", "trace_id": "db-5"}
+{"timestamp": "2026-10-06T12:00:15+00:00", "service": "media", "level": "ERROR", "message": "Disk quota exceeded on image volume", "trace_id": "media-5"}
+{"timestamp": "2026-10-06T12:00:30+00:00", "service": "gateway", "level": "INFO", "message": "Media and checkout use independent storage and database dependencies", "trace_id": null}

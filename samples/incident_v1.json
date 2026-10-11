@@ -1,0 +1,15 @@
+{
+  "schema_version": "incident.v1",
+  "incident_id": "checkout-2026-10-07-001",
+  "tenant_id": "demo-team",
+  "service": "checkout",
+  "environment": "production",
+  "events": [
+    {"timestamp":"2026-10-07T12:00:00Z","service":"database","severity":"WARNING","message":"Active connections reached configured limit","attributes":{"active_connections":20,"max_connections":20}},
+    {"timestamp":"2026-10-07T12:00:03Z","service":"checkout","severity":"ERROR","message":"DB connection timeout","trace_id":"checkout-0","duration_ms":3000},
+    {"timestamp":"2026-10-07T12:00:04Z","service":"gateway","severity":"ERROR","message":"Upstream checkout returned status=502","trace_id":"checkout-0","attributes":{"http.status_code":502}}
+  ],
+  "changes": [
+    {"timestamp":"2026-10-07T11:55:00Z","service":"checkout","kind":"deployment","operation":"checkout-api v2.18.0 deployed","attributes":{"deployment_id":"deploy-8842"}}
+  ]
+}
